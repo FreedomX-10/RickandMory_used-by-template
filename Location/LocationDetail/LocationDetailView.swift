@@ -5,7 +5,7 @@ import SnapKit
 class LocationDetailView: BaseView {
   
   // MARK: Views
-  var collectionView : UICollectionView = {
+  var collectionView : UICollectionView = { // have to choice see other in episodeDetailView
     var layout = UICollectionViewFlowLayout()
     layout.scrollDirection = .horizontal
     let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -92,22 +92,8 @@ extension LocationDetailView : UICollectionViewDelegateFlowLayout , UICollection
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! LocationCollectionViewCell
-    let APIResident = location.residents[indexPath.row]
-    var FirstAPI = String(APIResident.dropLast())
-    while FirstAPI.last != "/" {
-      FirstAPI = String(FirstAPI.dropLast())
-    }
-    let subAPI = APIResident.components(separatedBy: "/")
-    let number = subAPI[subAPI.endIndex-1]
-    let lastChar = String(number) + ".jpeg"
-    let imageLocations = FirstAPI + "avatar/" + lastChar
-    let url = URL(string: imageLocations)
-    let imageView = UIImageView()
-    imageView.kf.setImage(with: url)
-    cell.addSubview(imageView)
-    cell.clipsToBounds = true
-    imageView.contentMode = .scaleAspectFill
-    imageView.translatesAutoresizingMaskIntoConstraints = false
+    cell.setup(indexPath, location: location)
+   
     
     return cell
   }

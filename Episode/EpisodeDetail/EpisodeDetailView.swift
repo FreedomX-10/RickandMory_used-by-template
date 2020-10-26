@@ -81,22 +81,7 @@ extension EpisodeDetailView : UICollectionViewDataSource,UICollectionViewDelegat
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! EpisodeCollectionViewCell
-    let APIResident = episodes.characters[indexPath.row]
-    var FirstAPI = String(APIResident.dropLast())
-    while FirstAPI.last != "/" {
-      FirstAPI = String(FirstAPI.dropLast())
-    }
-    let subAPI = APIResident.components(separatedBy: "/")
-    let number = subAPI[subAPI.endIndex-1]
-    let lastChar = String(number) + ".jpeg"
-    let imageLocations = FirstAPI + "avatar/" + lastChar
-    let url = URL(string: imageLocations)
-    let imageView = UIImageView()
-    imageView.kf.setImage(with: url)
-    cell.addSubview(imageView)
-    cell.clipsToBounds = true
-    imageView.contentMode = .scaleAspectFill
-    imageView.translatesAutoresizingMaskIntoConstraints = false
+    cell.setup(indexPath, episodes)
   
     return cell
   }

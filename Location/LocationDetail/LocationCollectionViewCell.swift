@@ -17,6 +17,11 @@ class LocationCollectionViewCell: UICollectionViewCell {
   }
   
   func setupView() {
+    layer.cornerRadius = 100
+    imageView.layer.cornerRadius = 100
+    imageView.clipsToBounds = true
+    imageView.contentMode = .scaleAspectFill
+    imageView.translatesAutoresizingMaskIntoConstraints = false
     addSubview(imageView)
     imageView.snp.makeConstraints { make in
       make.top.equalToSuperview()
@@ -26,20 +31,17 @@ class LocationCollectionViewCell: UICollectionViewCell {
     
     
   }
-//  func setup( with location : locationModel){
-//   
-//    let apiResidents  = location.residents[0]
-//    var fisrtAPI = String(apiResidents.dropLast())
-//    while fisrtAPI.last != "/" {
-//      fisrtAPI = String(fisrtAPI.dropLast())
-//    }
-//    let subAPI = apiResidents.components(separatedBy: "/")
-//    let number = subAPI[subAPI.endIndex]
-//    let lastChar = String(number) + ".jpeg"
-//    let imageCharacter = fisrtAPI + "avatar/" + lastChar
-//    let url = URL(string: imageCharacter)
-//    imageView.kf.setImage(with: url)
-//    
-//    
-//  }
+  func setup (_ indexPath : IndexPath , location : locationModel) {
+    let APIResident = location.residents[indexPath.row]
+    var FirstAPI = String(APIResident.dropLast())
+    while FirstAPI.last != "/" {
+      FirstAPI = String(FirstAPI.dropLast())
+    }
+    let subAPI = APIResident.components(separatedBy: "/")
+    let number = subAPI[subAPI.endIndex-1]
+    let lastChar = String(number) + ".jpeg"
+    let imageLocations = FirstAPI + "avatar/" + lastChar
+    let url = URL(string: imageLocations)
+    imageView.kf.setImage(with: url)
+  }
 }
